@@ -108,7 +108,7 @@ class flume(
     }
 
     file { "/etc/flume-ng":
-      ensure => "/etc/flume-ng",
+      ensure => directory,
       mode   => '0644',
       purge  => $purge_configdir,
       force  => $purge_configdir
