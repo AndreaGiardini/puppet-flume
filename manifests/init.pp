@@ -87,7 +87,8 @@ class flume(
     enable     => $service_enable,
     name       => $flume::params::service_name,
     hasstatus  => $flume::params::service_hasstatus,
-    hasrestart => $flume::params::service_hasrestart
+    hasrestart => $flume::params::service_hasrestart,
+    require => Package["$flume::params::package"]
   }
 
   File {
