@@ -40,6 +40,7 @@ class flume(
   $flume_group         = $flume::params::flume_group,
   $configdir           = $flume::params::configdir,
   $purge_configdir     = $flume::params::purge_configdir,
+  $flume_configfile    = undef,
 ) inherits flume::params {
 
   package { $flume::params::package:
@@ -106,6 +107,13 @@ class flume(
       false => undef,
     }
 
+    file { "/etc/flume-ng":
+      ensure => "/etc/flume-ng",
+      mode   => '0644',
+      purge  => $purge_configdir,
+      force  => $purge_configdir
+    }
+
     file { $configdir:
       ensure => directory,
       mode   => '0644',
@@ -115,9 +123,9 @@ class flume(
 
     file { "${configdir}/flume.conf":
       ensure  => file,
-      content => template("${module_name}/etc/flume-ng/conf/flume.conf.erb"),
+      content => $flume_configfile,
       mode    => '0644',
-      notify  => $notify_service
+      #notify  => $notify_service
     }
 
   } elsif ( $ensure == 'absent' ) {
