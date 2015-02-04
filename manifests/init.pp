@@ -124,9 +124,10 @@ class flume(
 
     file { "${configdir}/flume.conf":
       ensure  => file,
-      content => $flume_configfile,
+      source => $flume_configfile,
       mode    => '0644',
       #notify  => $notify_service
+      notify => Service["$flume::params::service_name"]
     }
 
   } elsif ( $ensure == 'absent' ) {
